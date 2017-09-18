@@ -27,8 +27,15 @@ class Task
     (self.description.==another_task.description).&(self.list_id.==another_task.list_id).&(self.deadline.==another_task.deadline)
   end
 
-  def sort
-    task_deadline = DB.exec("SELECT description FROM tasks ORDER BY deadline;")
+  def self.sort
+    task_deadline = DB.exec("SELECT * FROM tasks ORDER BY deadline;")
+    tasks = []
+    task_deadline.each() do |task|
+      description = task.fetch("description")
+      list_id = task.fetch("list_id").to_i() # The information comes out of the database as a string.
+      deadline = task.fetch("deadline")
+      tasks.push(Task.new({:description => description, :list_id => list_id, :deadline => deadline}))
+    end
+    tasks
   end
-
 end

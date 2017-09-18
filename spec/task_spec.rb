@@ -42,4 +42,16 @@ describe(Task) do
       expect(task1).to(eq(task2))
     end
   end
+
+  describe("#sort") do
+    it ("sorts tasks based on deadline parameter") do
+      task1 = Task.new({:description => "learn SQL", :list_id => 1, :deadline => "2018-09-10 00:00:00"})
+      task1.save()
+      task2 = Task.new({:description => "learn SQL", :list_id => 2, :deadline => "2017-09-10 00:00:00"})
+      task2.save()
+      task3 = Task.new({:description => "learn SQL", :list_id => 3, :deadline => "2019-09-10 00:00:00"})
+      task3.save()
+      expect(Task.sort).to(eq([task2,task1,task3]))
+    end
+  end
 end
